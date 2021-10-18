@@ -2,4 +2,4 @@
 
 .PATH:	../lib
 SFX=	64
-.include "../lib/Makefile"
+.include "../lib/Makefile.common"
