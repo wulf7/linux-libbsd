@@ -24,23 +24,33 @@ CFLAGS+=	-I${.CURDIR}/../include -include bsd.h
 LIBDIR=		${LINUXDIR}/usr/lib${SFX}
 SHLIB_MAJOR=	1
 
-CLEANFILES=	${AUTOSRCS} param.h sysctl.h
+CLEANFILES=	${AUTOSRCS} cdefs.h param.h sysctl.h
 LIBCDIR=	${SYSDIR}/../lib/libc
+
+# Add some FreeBSD defines to Linux sys/cdefs.h
+cdefs.h:
+	echo "#include <sys/cdefs.h>" > $@
+	echo '#define __predict_true(exp) __builtin_expect((exp), 1)' >> $@
 
 # Add some FreeBSD constants to Linux sys/param.h
 param.h:
 	echo "#include <sys/param.h>" > $@
 	grep 'SPECNAMELEN' ${SYSDIR}/sys/$@ >> $@
+	echo '#define nitems(x) (sizeof((x)) / sizeof((x)[0]))' >> $@
 
 strlcpy.c strlcat.c:
 	${CP} ${LIBCDIR}/string/$@ $@
 
 # sysctlnametomib requires sys/sysctl.h from FreeBSD to work
 sysctl.h:
-	${CP} ${SYSDIR}/sys/$@ $@
+	sed -e '/<sys\/\_types\.h>/d' \
+	    -e 's|<sys/cdefs\.h>|"cdefs.h"|' \
+		${SYSDIR}/sys/$@ > $@
 
-devname.c sysctlbyname.c sysctlnametomib.c: param.h sysctl.h
-	sed -e 's|<sys/sysctl\.h>|"sysctl.h"|' \
+devname.c sysctlbyname.c sysctlnametomib.c: cdefs.h param.h sysctl.h
+	sed -e '/<sys\/\_types\.h>/d' \
+	    -e 's|<sys/cdefs\.h>|"cdefs.h"|' \
+	    -e 's|<sys/sysctl\.h>|"sysctl.h"|' \
 	    -e 's|<sys/param\.h>|"param.h"|' \
 		${LIBCDIR}/gen/$@ > $@
 
