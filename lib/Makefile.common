@@ -20,6 +20,7 @@ SRCS+=		__sysctlbyname.c
 CC=		${LINUXDIR}/usr/bin/gcc
 CFLAGS+=	--sysroot ${LINUXDIR}
 CFLAGS+=	-I${.CURDIR}/../include -include bsd.h
+LDFLAGS+=	--sysroot ${LINUXDIR}
 
 LIBDIR=		${LINUXDIR}/usr/lib${SFX}
 SHLIB_MAJOR=	1
