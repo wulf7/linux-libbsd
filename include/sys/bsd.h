@@ -26,15 +26,6 @@
 #ifndef _SYS_BSD_H_
 #define _SYS_BSD_H_
 
-/* Types for `void *' pointers.  */
-#ifdef __linux__
-#if __WORDSIZE == 64
-typedef unsigned long int	__uintptr_t;
-#else
-typedef unsigned int		__uintptr_t;
-#endif
-#endif
-
 /*
  * Fill the gaps in the Linux sysent table.
  * Long ago deprecated system calls are prefered.

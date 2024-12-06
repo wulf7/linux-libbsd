@@ -15,6 +15,8 @@ RSYSDIR=	${ROOTDIR}/sys
 CLEANFILES=	${SYSAUTO}
 
 sys/event.h sys/tree.h:
-	sed -e 's|<sys/_types\.h>|<sys/bsd.h>|' ${SYSDIR}/$@ > $@
+	sed -e 's|<sys/_types\.h>|<stdint.h>|' \
+		-e 's|<sys/cdefs\.h>|<stdint.h>|' \
+		-e 's|__uintptr_t|uintptr_t|g' ${SYSDIR}/$@ > $@
 
 .include <bsd.prog.mk>
