@@ -13,10 +13,14 @@ Load linuxolator kernel modules in to memory
 $ sudo service linux onestart
 ```
 
-Install *devel/linux-c7-devtools*
+Install *devel/linux-c7-devtools* or *devel/linux-rl9-devtools*
 
 ```
-$ pkg install linux-c7-devtools
+$ sudo pkg install linux-c7-devtools
+```
+or
+```
+$ sudo pkg install linux-rl9-devtools
 ```
 
 Build and install *linux-libbsd*
@@ -25,6 +29,15 @@ Build and install *linux-libbsd*
 $ cd linux-libbsd
 $ make
 $ sudo make install
+```
+
+If your linuxolator distribution misses i386 support like linux-rl9-*
+just skip installation of 32-bit libraries:
+
+```
+$ cd linux-libbsd
+$ make -DNO_LIB32
+$ sudo make install -DNO_LIB32
 ```
 
 Load *linux_libbsd* kernel module in to memory
