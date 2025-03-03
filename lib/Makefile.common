@@ -8,9 +8,11 @@ LINUXDIR!=	sysctl -n compat.linux.emul_path
 AUTOSRCS=	devname.c		\
 		strlcat.c		\
 		strlcpy.c		\
+		sysctl.c		\
 		sysctlbyname.c		\
 		sysctlnametomib.c
-SRCS=		kevent.c		\
+SRCS=		__sysctl.c		\
+		kevent.c		\
 		kqueue.c
 SRCS+=		${AUTOSRCS}
 .if ${OSVERSION} >= 1300045
@@ -47,8 +49,10 @@ sysctl.h:
 	sed -e '/<sys\/\_types\.h>/d' \
 	    -e 's|<sys/cdefs\.h>|"cdefs.h"|' \
 		${SYSDIR}/sys/$@ > $@
+	# from <path.h>. required by sysctl.c
+	echo '#define _PATH_LOCALBASE "/usr/local"' >> $@
 
-devname.c sysctlbyname.c sysctlnametomib.c: cdefs.h param.h sysctl.h
+devname.c sysctl.c sysctlbyname.c sysctlnametomib.c: cdefs.h param.h sysctl.h
 	sed -e '/<sys\/\_types\.h>/d' \
 	    -e 's|<sys/cdefs\.h>|"cdefs.h"|' \
 	    -e 's|<sys/sysctl\.h>|"sysctl.h"|' \
