@@ -7,14 +7,13 @@ INCSGROUPS=	ROOT RSYS
 SYSAUTO=	sys/event.h sys/tree.h
 
 ROOT=		bsd.h
-RSYS=		sys/bsd.h
-RSYS+=		${SYSAUTO}
+RSYS=		${SYSAUTO}
 
 ROOTDIR=	${LINUXDIR}/usr/include
 RSYSDIR=	${ROOTDIR}/sys
 CLEANFILES=	${SYSAUTO}
 
-sys/event.h sys/tree.h:
+${SYSAUTO}:
 	sed -e 's|<sys/_types\.h>|<stdint.h>|' \
 		-e 's|<sys/cdefs\.h>|<stdint.h>|' \
 		-e 's|__uintptr_t|uintptr_t|g' ${SYSDIR}/$@ > $@

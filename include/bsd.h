@@ -27,7 +27,6 @@
 #define _BSD_H_
 
 #include <sys/types.h>
-#include <sys/bsd.h>
 
 /*
  * Reset feature.h after last #include. Otherwise all extensions like
