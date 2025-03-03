@@ -3,7 +3,7 @@
 
 LIB=		bsd
 
-LINUXDIR?=	/compat/linux
+LINUXDIR!=	sysctl -n compat.linux.emul_path
 
 AUTOSRCS=	devname.c		\
 		strlcat.c		\
