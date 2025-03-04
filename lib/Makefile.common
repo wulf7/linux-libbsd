@@ -24,7 +24,7 @@ CFLAGS+=	--sysroot ${LINUXDIR}
 CFLAGS+=	-I${.CURDIR}/../include -include bsd.h
 LDFLAGS+=	--sysroot ${LINUXDIR}
 
-LIBDIR=		${LINUXDIR}/usr/lib${SFX}
+LIBDIR=		${LINUXDIR}${LINUXLIBDIR}
 SHLIB_MAJOR=	1
 
 CLEANFILES=	${AUTOSRCS} cdefs.h param.h sysctl.h
